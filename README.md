@@ -79,6 +79,16 @@ Follow the instructions to complete OAuth flow. This will store the refresh toke
 
 ### 5. Build and Deploy
 
+**For Raspberry Pi Zero 2W (low memory):**
+```bash
+# Build all packages with memory optimization
+npm run build:all:pi
+
+# Copy frontend to web directory
+sudo cp -r frontend/dist/* /var/www/html/
+```
+
+**For other systems:**
 ```bash
 # Build all packages
 npm run build:all
@@ -139,6 +149,9 @@ npm run dev:frontend  # Starts Vite dev server with proxy
 |--------|-------------|
 | `npm run install:all` | Install dependencies for both backend and frontend |
 | `npm run build:all` | Build both backend and frontend |
+| `npm run build:all:pi` | Build both backend and frontend (optimized for Pi Zero 2W) |
+| `npm run build:backend:pi` | Build backend with memory optimization |
+| `npm run build:frontend:pi` | Build frontend with memory optimization |
 | `npm run dev:backend` | Start backend in development mode |
 | `npm run dev:frontend` | Start frontend in development mode |
 | `npm run start:backend` | Start production backend server |
@@ -442,6 +455,23 @@ ls -la /opt/home_dashboard/secrets/
 
 # Verify Google OAuth credentials in .env
 grep GOOGLE_CLIENT /opt/home_dashboard/.env
+```
+
+**Build failures on Raspberry Pi Zero 2W:**
+```bash
+# If you get "JavaScript heap out of memory" errors:
+# Use the Pi-optimized build commands instead
+npm run build:all:pi
+
+# If still failing, try building components separately
+npm run build:backend:pi
+npm run build:frontend:pi
+
+# Check available memory
+free -h
+
+# Clear npm cache if needed
+npm cache clean --force
 ```
 
 ### Logs and Monitoring

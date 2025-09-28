@@ -4,7 +4,8 @@
   "description": "NodeJS backend for kiosk calendar and tasks display",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc",
+    "build": "node --max-old-space-size=256 --optimize-for-size node_modules/typescript/bin/tsc",
+    "build:pi": "node --max-old-space-size=128 --optimize-for-size node_modules/typescript/bin/tsc",
     "start": "node dist/server.js",
     "dev": "tsx watch src/server.ts",
     "oauth": "tsx src/lib/oauth-bootstrap.ts"
