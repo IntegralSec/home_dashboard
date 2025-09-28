@@ -419,6 +419,36 @@ export function Calendar({ events, currentDate, view, timezone }: CalendarProps)
       display: 'flex',
       flexDirection: 'column'
     }}>
+      {/* Event count display */}
+      <div style={{
+        backgroundColor: '#1a1a1a',
+        borderBottom: '1px solid #404040',
+        padding: '0.75rem 1rem',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexShrink: 0
+      }}>
+        <div style={{
+          fontSize: '0.875rem',
+          color: '#9ca3af',
+          fontWeight: '500'
+        }}>
+          📅 Calendar Events
+        </div>
+        <div style={{
+          fontSize: '0.875rem',
+          color: events.length > 0 ? '#10b981' : '#ef4444',
+          fontWeight: '600',
+          backgroundColor: events.length > 0 ? '#065f46' : '#7f1d1d',
+          padding: '0.25rem 0.75rem',
+          borderRadius: '0.375rem',
+          border: `1px solid ${events.length > 0 ? '#059669' : '#991b1b'}`
+        }}>
+          {events.length} event{events.length !== 1 ? 's' : ''} received
+        </div>
+      </div>
+      
       {view === 'month' && renderMonthView()}
       {view === 'week' && renderWeekView()}
       {view === 'day' && renderDayView()}

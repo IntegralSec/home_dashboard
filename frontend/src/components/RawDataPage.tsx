@@ -168,20 +168,96 @@ export function RawDataPage({ onBack }: RawDataPageProps) {
       );
     }
 
+    // Create summary info for specific endpoints
+    const getSummaryInfo = () => {
+      if (endpointKey === '/api/calendar' && Array.isArray(data)) {
+        return {
+          type: 'calendar',
+          count: data.length,
+          hasData: data.length > 0
+        };
+      } else if (endpointKey === '/api/tasks' && Array.isArray(data)) {
+        return {
+          type: 'tasks',
+          count: data.length,
+          hasData: data.length > 0
+        };
+      } else if (endpointKey === '/api/meta' && data) {
+        return {
+          type: 'meta',
+          hasData: true
+        };
+      } else if (endpointKey === '/api/health' && data) {
+        return {
+          type: 'health',
+          hasData: true
+        };
+      } else if (endpointKey === '/api/admin/refresh' && data) {
+        return {
+          type: 'refresh',
+          hasData: true
+        };
+      }
+      return null;
+    };
+
+    const summaryInfo = getSummaryInfo();
+
     return (
-      <pre style={{
-        backgroundColor: '#1f2937',
-        color: '#e5e5e5',
-        padding: '1rem',
-        borderRadius: '0.5rem',
-        fontSize: '0.875rem',
-        overflow: 'auto',
-        maxHeight: '400px',
-        fontFamily: 'Monaco, Consolas, "Courier New", monospace',
-        margin: 0
-      }}>
-        {JSON.stringify(data, null, 2)}
-      </pre>
+      <div>
+        {/* Summary header */}
+        {summaryInfo && (
+          <div style={{
+            backgroundColor: '#1a1a1a',
+            borderBottom: '1px solid #374151',
+            padding: '0.75rem 1rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            fontSize: '0.875rem'
+          }}>
+            <div style={{
+              color: '#9ca3af',
+              fontWeight: '500'
+            }}>
+              {summaryInfo.type === 'calendar' && '📅 Calendar Events'}
+              {summaryInfo.type === 'tasks' && '✅ Tasks'}
+              {summaryInfo.type === 'meta' && 'ℹ️ Metadata'}
+              {summaryInfo.type === 'health' && '❤️ Health Status'}
+              {summaryInfo.type === 'refresh' && '🔄 Cache Refresh'}
+            </div>
+            <div style={{
+              color: summaryInfo.hasData ? '#10b981' : '#ef4444',
+              fontWeight: '600',
+              backgroundColor: summaryInfo.hasData ? '#065f46' : '#7f1d1d',
+              padding: '0.25rem 0.75rem',
+              borderRadius: '0.375rem',
+              border: `1px solid ${summaryInfo.hasData ? '#059669' : '#991b1b'}`
+            }}>
+              {summaryInfo.type === 'calendar' && `${summaryInfo.count} event${summaryInfo.count !== 1 ? 's' : ''} received`}
+              {summaryInfo.type === 'tasks' && `${summaryInfo.count} task${summaryInfo.count !== 1 ? 's' : ''} received`}
+              {summaryInfo.type === 'meta' && 'Metadata available'}
+              {summaryInfo.type === 'health' && 'Service healthy'}
+              {summaryInfo.type === 'refresh' && 'Refresh completed'}
+            </div>
+          </div>
+        )}
+
+        {/* Raw JSON data */}
+        <pre style={{
+          backgroundColor: '#1f2937',
+          color: '#e5e5e5',
+          padding: '1rem',
+          borderRadius: '0.5rem',
+          fontSize: '0.875rem',
+          overflow: 'auto',
+          maxHeight: '400px',
+          fontFamily: 'Monaco, Consolas, "Courier New", monospace',
+          margin: 0
+        }}>
+          {JSON.stringify(data, null, 2)}
+        </pre>
+      </div>
     );
   };
 
