@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Event, Task, MetaResponse } from '../types.js';
 import { ApiClient } from '../lib/api.js';
 
@@ -18,7 +18,7 @@ export function useData(refreshInterval: number = 60000): UseDataReturn {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const apiClient = useState(() => new ApiClient())[0];
+  const apiClient = useMemo(() => new ApiClient(), []);
 
   const fetchData = useCallback(async () => {
     try {

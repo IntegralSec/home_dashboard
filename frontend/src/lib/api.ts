@@ -3,24 +3,31 @@ import { Event, Task, MetaResponse } from '../types.js';
 const API_BASE = '/api';
 
 export class ApiClient {
-  private abortController: AbortController | null = null;
+  private abortControllers: Map<string, AbortController> = new Map();
 
   constructor() {
   }
 
   private async fetchWithTimeout<T>(url: string, options: RequestInit = {}, timeout: number = 10000): Promise<T> {
-    if (this.abortController) {
-      this.abortController.abort();
+    // Create a unique key for this request
+    const requestKey = `${url}-${Date.now()}`;
+    
+    // Abort any existing request to the same URL
+    const existingController = this.abortControllers.get(url);
+    if (existingController) {
+      existingController.abort();
     }
     
-    this.abortController = new AbortController();
-    const timeoutId = setTimeout(() => this.abortController?.abort(), timeout);
+    const abortController = new AbortController();
+    this.abortControllers.set(url, abortController);
+    
+    const timeoutId = setTimeout(() => abortController.abort(), timeout);
 
     try {
       console.log('Making request to:', url);
       const response = await fetch(url, {
         ...options,
-        signal: this.abortController.signal
+        signal: abortController.signal
       });
 
       clearTimeout(timeoutId);
@@ -37,6 +44,9 @@ export class ApiClient {
       clearTimeout(timeoutId);
       console.error('Fetch error:', error);
       throw error;
+    } finally {
+      // Clean up the abort controller
+      this.abortControllers.delete(url);
     }
   }
 
@@ -118,9 +128,10 @@ export class ApiClient {
   }
 
   destroy(): void {
-    if (this.abortController) {
-      this.abortController.abort();
-      this.abortController = null;
+    // Abort all pending requests
+    for (const controller of this.abortControllers.values()) {
+      controller.abort();
     }
+    this.abortControllers.clear();
   }
 }
