@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Kiosk Calendar & Tasks - Installation Script
+# Home Dashboard - Installation Script
 # For Raspberry Pi OS Lite (Bullseye)
 
 set -e
 
-echo "🚀 Installing Kiosk Calendar & Tasks..."
+echo "🚀 Installing Home Dashboard..."
 
 # Update system
 echo "📦 Updating system packages..."
@@ -31,13 +31,13 @@ fi
 
 # Create directories
 echo "📁 Creating directories..."
-sudo mkdir -p /opt/kiosk-api
+sudo mkdir -p /opt/home_dashboard
 sudo mkdir -p /srv/data
 sudo mkdir -p /var/www/html
 sudo mkdir -p /var/log/caddy
 
 # Set permissions
-sudo chown -R pi:pi /opt/kiosk-api
+sudo chown -R pi:pi /opt/home_dashboard
 sudo chown -R pi:pi /srv/data
 sudo chown -R www-data:www-data /var/www/html
 
@@ -52,10 +52,10 @@ sudo systemctl daemon-reload
 echo "✅ Installation complete!"
 echo ""
 echo "Next steps:"
-echo "1. Copy your project files to /opt/kiosk-api"
+echo "1. Copy your project files to /opt/home_dashboard"
 echo "2. Configure your .env file with Google OAuth credentials"
 echo "3. Run 'npm run oauth' to bootstrap Google authentication"
-echo "4. Build the project: 'npm run build'"
+echo "4. Build the project: 'npm run build:all'"
 echo "5. Copy frontend build to /var/www/html"
 echo "6. Enable and start services:"
 echo "   sudo systemctl enable kiosk-api"

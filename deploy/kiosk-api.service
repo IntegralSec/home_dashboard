@@ -1,13 +1,13 @@
 [Unit]
-Description=Kiosk API (NodeJS)
+Description=Home Dashboard API (NodeJS)
 After=network-online.target
 Wants=network-online.target
 
 [Service]
-EnvironmentFile=/opt/kiosk-api/.env
+EnvironmentFile=/opt/home_dashboard/.env
 User=pi
 Group=pi
-WorkingDirectory=/opt/kiosk-api
+WorkingDirectory=/opt/home_dashboard
 ExecStart=/usr/bin/node ./dist/server.js
 Restart=always
 RestartSec=10
@@ -19,7 +19,7 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=/opt/kiosk-api /srv/data
+ReadWritePaths=/opt/home_dashboard /srv/data
 
 # Resource limits
 MemoryMax=200M

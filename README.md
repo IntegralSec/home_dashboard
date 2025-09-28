@@ -37,7 +37,7 @@ A lightweight Node.js + React application designed to display Google Calendar ev
 
 ```bash
 # Clone or copy the project files
-cd /opt/kiosk-api
+cd /opt/home_dashboard
 
 # Install dependencies for all packages
 npm run install:all
@@ -295,7 +295,7 @@ Force refresh all cached data. Requires admin token or localhost access.
 | `GOOGLE_REDIRECT_URI` | OAuth redirect URI | http://127.0.0.1:5555/oauth2callback | No |
 | `GOOGLE_SCOPES` | OAuth scopes | https://www.googleapis.com/auth/tasks.readonly | No |
 | `DATA_DIR` | Data storage directory | /srv/data | No |
-| `SECRETS_DIR` | OAuth secrets directory | /opt/kiosk-api/secrets | No |
+| `SECRETS_DIR` | OAuth secrets directory | /opt/home_dashboard/secrets | No |
 | `ADMIN_TOKEN` | Admin API authentication token | change_me | No |
 
 ### Google Calendar ICS URL
@@ -348,8 +348,8 @@ If you prefer manual setup or are using a different distribution:
 
 3. **Create directories:**
    ```bash
-   sudo mkdir -p /opt/kiosk-api /srv/data /var/www/html /var/log/caddy
-   sudo chown -R pi:pi /opt/kiosk-api /srv/data
+   sudo mkdir -p /opt/home_dashboard /srv/data /var/www/html /var/log/caddy
+   sudo chown -R pi:pi /opt/home_dashboard /srv/data
    sudo chown -R www-data:www-data /var/www/html
    ```
 
@@ -376,8 +376,8 @@ For production deployment:
 
 3. **Deploy backend:**
    ```bash
-   sudo cp -r backend/dist/* /opt/kiosk-api/
-   sudo cp backend/.env /opt/kiosk-api/
+   sudo cp -r backend/dist/* /opt/home_dashboard/
+   sudo cp backend/.env /opt/home_dashboard/
    ```
 
 4. **Start services:**
@@ -396,7 +396,7 @@ For production deployment:
 npm run oauth
 
 # Check if secrets directory exists and has correct permissions
-ls -la /opt/kiosk-api/secrets/
+ls -la /opt/home_dashboard/secrets/
 ```
 
 **Service not starting:**
@@ -408,7 +408,7 @@ sudo systemctl status kiosk-api
 sudo journalctl -u kiosk-api -f
 
 # Verify environment file
-cat /opt/kiosk-api/.env
+cat /opt/home_dashboard/.env
 ```
 
 **Frontend not loading:**
@@ -438,10 +438,10 @@ curl http://localhost/api/meta
 **Tasks not loading:**
 ```bash
 # Check OAuth configuration
-ls -la /opt/kiosk-api/secrets/
+ls -la /opt/home_dashboard/secrets/
 
 # Verify Google OAuth credentials in .env
-grep GOOGLE_CLIENT /opt/kiosk-api/.env
+grep GOOGLE_CLIENT /opt/home_dashboard/.env
 ```
 
 ### Logs and Monitoring
