@@ -1,0 +1,30 @@
+{
+  "name": "kiosk-calendar-tasks",
+  "version": "1.0.0",
+  "description": "NodeJS + React kiosk application for displaying Google Calendar and Tasks",
+  "scripts": {
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "build:all": "npm run build:backend && npm run build:frontend",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "start:backend": "cd backend && npm start",
+    "oauth": "cd backend && npm run oauth"
+  },
+  "keywords": [
+    "kiosk",
+    "calendar",
+    "tasks",
+    "raspberry-pi",
+    "react",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/luxon": "^3.7.1"
+  }
+}

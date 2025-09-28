@@ -1,0 +1,29 @@
+[Unit]
+Description=Kiosk API (NodeJS)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+EnvironmentFile=/opt/kiosk-api/.env
+User=pi
+Group=pi
+WorkingDirectory=/opt/kiosk-api
+ExecStart=/usr/bin/node ./dist/server.js
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/kiosk-api /srv/data
+
+# Resource limits
+MemoryMax=200M
+CPUQuota=50%
+
+[Install]
+WantedBy=multi-user.target

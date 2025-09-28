@@ -1,0 +1,36 @@
+{
+  "name": "kiosk-api",
+  "version": "1.0.0",
+  "description": "NodeJS backend for kiosk calendar and tasks display",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts",
+    "oauth": "tsx src/lib/oauth-bootstrap.ts"
+  },
+  "keywords": [
+    "kiosk",
+    "calendar",
+    "tasks",
+    "google"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/cors": "^8.4.0",
+    "dotenv": "^16.3.1",
+    "fastify": "^4.24.3",
+    "fs-extra": "^11.1.1",
+    "googleapis": "^126.0.1",
+    "luxon": "^3.4.4",
+    "node-ical": "^0.16.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/luxon": "^3.7.1",
+    "@types/node": "^20.8.7",
+    "tsx": "^3.14.0",
+    "typescript": "^5.2.2"
+  }
+}

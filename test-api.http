@@ -1,0 +1,22 @@
+### Test Kiosk API Endpoints
+### Make sure the backend is running on localhost:5055
+
+### Health Check
+GET http://localhost:5055/api/health
+
+### Get Calendar Events
+GET http://localhost:5055/api/calendar
+
+### Get Tasks
+GET http://localhost:5055/api/tasks
+
+### Get Metadata
+GET http://localhost:5055/api/meta
+
+### Force Refresh (requires admin token)
+POST http://localhost:5055/api/admin/refresh
+Authorization: Bearer change_me
+
+### Test with invalid admin token (should fail)
+POST http://localhost:5055/api/admin/refresh
+Authorization: Bearer invalid_token
