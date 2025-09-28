@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "node --max-old-space-size=2048 node_modules/typescript/bin/tsc && NODE_OPTIONS='--max-old-space-size=2048' vite build",
     "build:pi": "node --max-old-space-size=256 --optimize-for-size node_modules/typescript/bin/tsc && NODE_OPTIONS='--max-old-space-size=256' vite build",
     "preview": "vite preview"
   },
