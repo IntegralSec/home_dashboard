@@ -9,9 +9,6 @@ export class ApiClient {
   }
 
   private async fetchWithTimeout<T>(url: string, options: RequestInit = {}, timeout: number = 10000): Promise<T> {
-    // Create a unique key for this request
-    const requestKey = `${url}-${Date.now()}`;
-    
     // Abort any existing request to the same URL
     const existingController = this.abortControllers.get(url);
     if (existingController) {
