@@ -11,6 +11,66 @@ interface HeaderProps {
 }
 
 export function Header({ meta, currentDate, onViewChange, onDateChange, onShowRawData, view }: HeaderProps) {
+  // Navigation functions based on current view
+  const getPreviousDate = () => {
+    switch (view) {
+      case 'month':
+        return currentDate.minus({ months: 1 });
+      case 'week':
+        return currentDate.minus({ weeks: 1 });
+      case 'day':
+        return currentDate.minus({ days: 1 });
+      default:
+        return currentDate.minus({ months: 1 });
+    }
+  };
+
+  const getNextDate = () => {
+    switch (view) {
+      case 'month':
+        return currentDate.plus({ months: 1 });
+      case 'week':
+        return currentDate.plus({ weeks: 1 });
+      case 'day':
+        return currentDate.plus({ days: 1 });
+      default:
+        return currentDate.plus({ months: 1 });
+    }
+  };
+
+  const getNavigationTitle = (direction: 'previous' | 'next') => {
+    const action = direction === 'previous' ? 'Previous' : 'Next';
+    switch (view) {
+      case 'month':
+        return `${action} month`;
+      case 'week':
+        return `${action} week`;
+      case 'day':
+        return `${action} day`;
+      default:
+        return `${action} month`;
+    }
+  };
+
+  const getHeaderTitle = () => {
+    switch (view) {
+      case 'month':
+        return currentDate.toFormat('MMMM yyyy');
+      case 'week':
+        const startOfWeek = currentDate.startOf('week');
+        const endOfWeek = currentDate.endOf('week');
+        if (startOfWeek.month === endOfWeek.month) {
+          return `${startOfWeek.toFormat('MMM d')} - ${endOfWeek.toFormat('d, yyyy')}`;
+        } else {
+          return `${startOfWeek.toFormat('MMM d')} - ${endOfWeek.toFormat('MMM d, yyyy')}`;
+        }
+      case 'day':
+        return currentDate.toFormat('EEEE, MMMM d, yyyy');
+      default:
+        return currentDate.toFormat('MMMM yyyy');
+    }
+  };
+
   const getStatusColor = () => {
     if (!meta) return '#6b7280';
     const isCalendarStale = meta.calendar.stale;
@@ -63,7 +123,7 @@ export function Header({ meta, currentDate, onViewChange, onDateChange, onShowRa
           gap: '1rem'
         }}>
           <button
-            onClick={() => onDateChange(currentDate.minus({ months: 1 }))}
+            onClick={() => onDateChange(getPreviousDate())}
             style={{
               padding: '0.5rem',
               border: '2px solid #404040',
@@ -79,7 +139,7 @@ export function Header({ meta, currentDate, onViewChange, onDateChange, onShowRa
               alignItems: 'center',
               justifyContent: 'center'
             }}
-            title="Previous month"
+            title={getNavigationTitle('previous')}
           >
             ‹
           </button>
@@ -103,7 +163,7 @@ export function Header({ meta, currentDate, onViewChange, onDateChange, onShowRa
           </button>
           
           <button
-            onClick={() => onDateChange(currentDate.plus({ months: 1 }))}
+            onClick={() => onDateChange(getNextDate())}
             style={{
               padding: '0.5rem',
               border: '2px solid #404040',
@@ -119,7 +179,7 @@ export function Header({ meta, currentDate, onViewChange, onDateChange, onShowRa
               alignItems: 'center',
               justifyContent: 'center'
             }}
-            title="Next month"
+            title={getNavigationTitle('next')}
           >
             ›
           </button>
@@ -132,7 +192,7 @@ export function Header({ meta, currentDate, onViewChange, onDateChange, onShowRa
           margin: 0,
           letterSpacing: '0.025em'
         }}>
-          {currentDate.toFormat('MMMM yyyy')}
+          {getHeaderTitle()}
         </h1>
         
         <div style={{ 
