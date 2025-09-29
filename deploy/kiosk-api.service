@@ -5,8 +5,8 @@ Wants=network-online.target
 
 [Service]
 EnvironmentFile=/opt/home_dashboard/.env
-User=pi
-Group=pi
+User=dashboard
+Group=dashboard
 WorkingDirectory=/opt/home_dashboard
 ExecStart=/usr/bin/node ./dist/server.js
 Restart=always

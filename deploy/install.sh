@@ -37,6 +37,15 @@ if command -v lighttpd &> /dev/null; then
     sudo apt remove -y lighttpd 2>/dev/null || true
 fi
 
+# Create dashboard user
+echo "👤 Creating dashboard user..."
+if ! id "dashboard" &>/dev/null; then
+    sudo useradd -r -s /bin/bash -d /opt/home_dashboard -m dashboard
+    echo "✅ Dashboard user created"
+else
+    echo "Dashboard user already exists"
+fi
+
 # Create directories
 echo "📁 Creating directories..."
 sudo mkdir -p /opt/home_dashboard
@@ -45,8 +54,8 @@ sudo mkdir -p /var/www/html
 sudo mkdir -p /var/log/caddy
 
 # Set permissions
-sudo chown -R pi:pi /opt/home_dashboard
-sudo chown -R pi:pi /srv/data
+sudo chown -R dashboard:dashboard /opt/home_dashboard
+sudo chown -R dashboard:dashboard /srv/data
 sudo chown -R www-data:www-data /var/www/html
 
 # Copy configuration files
