@@ -10,8 +10,8 @@ Type=simple
 EnvironmentFile=/opt/home_dashboard/.env
 User=dashboard
 Group=dashboard
-WorkingDirectory=/opt/home_dashboard
-ExecStart=/usr/bin/node ./dist/server.js
+WorkingDirectory=/opt/home_dashboard/backend
+ExecStart=/usr/bin/node /opt/home_dashboard/backend/dist/server.js
 ExecStartPost=/bin/sleep 5
 ExecStartPost=/bin/bash -c 'timeout 10 bash -c "</dev/tcp/127.0.0.1/5055" || exit 1'
 
