@@ -81,8 +81,9 @@ sudo chmod 700 /opt/home_dashboard/secrets
 
 # Copy configuration files
 echo "⚙️  Copying configuration files..."
-sudo cp kiosk-api.service /etc/systemd/system/
-sudo cp Caddyfile /etc/caddy/Caddyfile
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+sudo cp "$SCRIPT_DIR/kiosk-api.service" /etc/systemd/system/
+sudo cp "$SCRIPT_DIR/Caddyfile" /etc/caddy/Caddyfile
 
 # Reload systemd
 sudo systemctl daemon-reload
