@@ -6,9 +6,10 @@ interface CalendarProps {
   currentDate: DateTime;
   view: ViewMode;
   timezone: string;
+  onDayClick?: (date: DateTime) => void;
 }
 
-export function Calendar({ events, currentDate, view, timezone }: CalendarProps) {
+export function Calendar({ events, currentDate, view, timezone, onDayClick }: CalendarProps) {
   console.log('🗓️ Calendar component received:', {
     eventsCount: events.length,
     currentDate: currentDate.toISODate(),
@@ -52,17 +53,32 @@ export function Calendar({ events, currentDate, view, timezone }: CalendarProps)
         week.push(
           <div
             key={day.toISODate()}
-          style={{
-            flex: 1,
-            minHeight: '140px',
-            border: '1px solid #404040',
-            padding: '0.75rem 0.5rem',
-            backgroundColor: day.hasSame(currentDate, 'month') ? '#2d2d2d' : '#1a1a1a',
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
-            minWidth: 0
-          }}
+            onClick={() => onDayClick?.(day)}
+            style={{
+              flex: 1,
+              minHeight: '140px',
+              border: '1px solid #404040',
+              padding: '0.75rem 0.5rem',
+              backgroundColor: day.hasSame(currentDate, 'month') ? '#2d2d2d' : '#1a1a1a',
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              minWidth: 0,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              ':hover': {
+                backgroundColor: day.hasSame(currentDate, 'month') ? '#404040' : '#2d2d2d',
+                borderColor: '#60a5fa'
+              }
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = day.hasSame(currentDate, 'month') ? '#404040' : '#2d2d2d';
+              e.currentTarget.style.borderColor = '#60a5fa';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = day.hasSame(currentDate, 'month') ? '#2d2d2d' : '#1a1a1a';
+              e.currentTarget.style.borderColor = '#404040';
+            }}
           >
             <div style={{
               fontSize: '1rem',

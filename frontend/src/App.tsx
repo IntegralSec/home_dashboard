@@ -17,6 +17,12 @@ function App() {
 
   const timezone = meta?.timezone || 'America/Toronto';
 
+  // Handle day click - switch to day view for the selected date
+  const handleDayClick = (date: DateTime) => {
+    setCurrentDate(date);
+    setView('day');
+  };
+
   // Debug logging
   console.log('🏠 App component data:', {
     eventsCount: events.length,
@@ -92,6 +98,7 @@ function App() {
           currentDate={currentDate}
           view={view}
           timezone={timezone}
+          onDayClick={handleDayClick}
         />
         
         <Tasks
