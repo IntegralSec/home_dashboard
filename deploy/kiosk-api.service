@@ -1,24 +1,46 @@
 [Unit]
 Description=Home Dashboard API (NodeJS)
+Documentation=https://github.com/IntegralSec/home_dashboard
 After=network-online.target
 Wants=network-online.target
+RequiresMountsFor=/opt/home_dashboard /srv/data
 
 [Service]
+Type=simple
 EnvironmentFile=/opt/home_dashboard/.env
 User=dashboard
 Group=dashboard
 WorkingDirectory=/opt/home_dashboard
 ExecStart=/usr/bin/node ./dist/server.js
-Restart=always
+ExecStartPost=/bin/sleep 5
+ExecStartPost=/bin/bash -c 'timeout 10 bash -c "</dev/tcp/127.0.0.1/5055" || exit 1'
+
+# Restart policy
+Restart=on-failure
 RestartSec=10
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# Timeouts
+TimeoutStartSec=30
+TimeoutStopSec=10
+
+# Logging
 StandardOutput=journal
 StandardError=journal
+SyslogIdentifier=kiosk-api
 
 # Security settings
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+LockPersonality=true
 ReadWritePaths=/opt/home_dashboard /srv/data
 
 # Resource limits
