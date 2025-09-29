@@ -54,9 +54,30 @@ sudo mkdir -p /var/www/html
 sudo mkdir -p /var/log/caddy
 
 # Set permissions
+echo "🔐 Setting permissions for dashboard user..."
 sudo chown -R dashboard:dashboard /opt/home_dashboard
 sudo chown -R dashboard:dashboard /srv/data
 sudo chown -R www-data:www-data /var/www/html
+
+# Set directory permissions
+sudo chmod 755 /opt/home_dashboard
+sudo chmod 755 /srv/data
+sudo chmod 755 /var/www/html
+
+# Ensure Node.js can bind to port 5055
+echo "🔌 Configuring Node.js for port binding..."
+if command -v setcap &> /dev/null; then
+    sudo setcap 'cap_net_bind_service=+ep' /usr/bin/node
+    echo "✅ Node.js configured for port binding"
+else
+    echo "⚠️  setcap not available - port binding may require root privileges"
+fi
+
+# Create secrets directory with proper permissions
+echo "🔐 Creating secrets directory..."
+sudo mkdir -p /opt/home_dashboard/secrets
+sudo chown dashboard:dashboard /opt/home_dashboard/secrets
+sudo chmod 700 /opt/home_dashboard/secrets
 
 # Copy configuration files
 echo "⚙️  Copying configuration files..."
@@ -83,6 +104,12 @@ if [ -d "/opt/home_dashboard/frontend" ]; then
 else
     echo "⚠️  Frontend directory not found. You'll need to build and copy files manually."
 fi
+
+# Verify permissions
+echo "🔍 Verifying permissions..."
+echo "Dashboard user permissions:"
+sudo -u dashboard ls -la /opt/home_dashboard/ 2>/dev/null || echo "⚠️  Cannot access /opt/home_dashboard as dashboard user"
+sudo -u dashboard ls -la /srv/data/ 2>/dev/null || echo "⚠️  Cannot access /srv/data as dashboard user"
 
 echo "✅ Installation complete!"
 echo ""
