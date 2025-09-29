@@ -294,20 +294,23 @@ export function Header({ meta, currentDate, onViewChange, onDateChange, onShowRa
         <button
           onClick={onShowRawData}
           style={{
-            padding: '0.5rem 1rem',
+            padding: '0.5rem',
             border: '2px solid #6b7280',
             borderRadius: '0.375rem',
             backgroundColor: '#374151',
             color: '#e5e5e5',
-            fontSize: '0.875rem',
-            fontWeight: '600',
+            fontSize: '1.25rem',
             cursor: 'pointer',
             transition: 'all 0.2s ease',
-            whiteSpace: 'nowrap'
+            minWidth: '40px',
+            height: '40px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}
           title="View raw calendar data from backend"
         >
-          📊 Raw Data
+          ⚙️
         </button>
       </div>
     </header>

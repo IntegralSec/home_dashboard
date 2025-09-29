@@ -65,11 +65,7 @@ export function Calendar({ events, currentDate, view, timezone, onDayClick }: Ca
               flexDirection: 'column',
               minWidth: 0,
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              ':hover': {
-                backgroundColor: day.hasSame(currentDate, 'month') ? '#404040' : '#2d2d2d',
-                borderColor: '#60a5fa'
-              }
+              transition: 'all 0.2s ease'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = day.hasSame(currentDate, 'month') ? '#404040' : '#2d2d2d';
