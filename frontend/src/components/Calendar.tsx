@@ -194,11 +194,22 @@ export function Calendar({ events, currentDate, view, timezone, onDayClick }: Ca
       days.push(
         <div
           key={day.toISODate()}
+          onClick={() => onDayClick?.(day)}
           style={{
             flex: 1,
             border: '1px solid #404040',
             padding: '1rem',
-            backgroundColor: '#2d2d2d'
+            backgroundColor: '#2d2d2d',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#404040';
+            e.currentTarget.style.borderColor = '#60a5fa';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = '#2d2d2d';
+            e.currentTarget.style.borderColor = '#404040';
           }}
         >
           <div style={{
